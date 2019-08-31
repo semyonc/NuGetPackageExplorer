@@ -26,6 +26,8 @@
     <Reference Include="Windows" />
 
     <ProjectReference Include="..\PackageViewModel\PackageViewModel.csproj" />
+
+    <ProjectReference Include="..\WpfHosting\WpfHosting.csproj" />
   </ItemGroup>
 
   <ItemGroup>

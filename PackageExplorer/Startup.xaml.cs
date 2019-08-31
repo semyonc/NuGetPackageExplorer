@@ -21,6 +21,12 @@ namespace PackageExplorer
 {
     public partial class Startup : Application
     {
+        private IServiceProvider _serviceProvider;
+        public Startup(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         private CompositionContainer? _container;
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
