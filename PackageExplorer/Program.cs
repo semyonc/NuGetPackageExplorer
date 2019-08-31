@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using NuGetPe;
+using WpfHosting;
 
 namespace PackageExplorer
 {
@@ -17,15 +18,12 @@ namespace PackageExplorer
             DiagnosticsClient.TrackEvent("AppStart", new Dictionary<string, string> { { "launchType", args.Length > 0 ? "fileAssociation" : "shortcut" } });
 
 
-            var retcode = Host.CreateDefaultBuilder()
-                .RunWpfApplication<Startup>(args);
+            var host = new WpfHostBuilder(Host.CreateDefaultBuilder(), args)
+                .UseStartup<Startup>()
+                .Build();
 
-            //var app = new Startup();
+            var retcode = host.RunWithExitCode();
 
-            //DiagnosticsClient.WireApp(app);
-
-            //app.InitializeComponent();
-            //var retcode = app.Run();
 
             DiagnosticsClient.TrackEvent("AppExit");
             DiagnosticsClient.OnExit();

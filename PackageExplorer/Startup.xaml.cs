@@ -7,6 +7,9 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Credentials;
@@ -21,10 +24,10 @@ namespace PackageExplorer
 {
     public partial class Startup : Application
     {
-        private IServiceProvider _serviceProvider;
-        public Startup(IServiceProvider serviceProvider)
+
+        public Startup(IHostEnvironment hostEnvironment, IConfiguration configuration)
         {
-            _serviceProvider = serviceProvider;
+
         }
 
         private CompositionContainer? _container;
@@ -49,6 +52,18 @@ namespace PackageExplorer
                 return _container;
             }
         }
+
+        public void ConfigureServices(IServiceCollection serviecs)
+        {
+
+        }
+
+        public void Configure(IServiceProvider serviceProvider)
+        {
+
+        }
+
+
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {

@@ -15,44 +15,15 @@ namespace Microsoft.Extensions.Hosting
     /// <summary>
     ///     Extension methods for <see cref="IHostBuilder" /> support.
     /// </summary>
-    public static class HostBuilderExtensions
+    public static class HostExtensions
     {
-        /// <summary>
-        ///     Runs an instance of <typeparamref name="TApp" />
-        /// </summary>
-        /// <typeparam name="TApp">The type of the WPF application implementation</typeparam>
-        /// <param name="hostBuilder">This instance</param>
-        /// <param name="args">The command line arguments</param>
-        /// <param name="cancellationToken">A cancellation token</param>
-        /// <returns>A task whose result is the exit code of the application</returns>
-        public static int RunWpfApplication<TApp>(
-            this IHostBuilder hostBuilder, string[] args, CancellationToken cancellationToken = default)
-            where TApp : Application, IComponentConnector
+
+        public static int RunWithExitCode(this IHost host)
         {
-            var exceptionHandler = new StoreExceptionHandler();
-            var state = new WpfState(args);
-            hostBuilder.ConfigureServices(
-                (context, services)
-                    =>
-                {
-                    services
-                        .TryAddSingleton<IUnhandledExceptionHandler>(exceptionHandler);
-                    services
-                        .AddSingleton<IHostLifetime, WpfLifetime>();
-
-                    services.AddSingleton(state);
-                    services
-                        .AddSingleton<TApp>();
-                    services
-                        .AddSingleton<IWpfService, WpfService<TApp>>();
-
-                });
-
-            using var host = hostBuilder.Build();
-
+            var state = host.Services.GetRequiredService<WpfState>();
             try
             {
-                host.RunAsync(cancellationToken).GetAwaiter().GetResult();
+                host.Run();
             }
             catch (OperationCanceledException) { }            
 
