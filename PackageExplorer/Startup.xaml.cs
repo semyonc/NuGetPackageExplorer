@@ -19,16 +19,9 @@ using Settings = PackageExplorer.Properties.Settings;
 
 namespace PackageExplorer
 {
-    public partial class App : Application
+    public partial class Startup : Application
     {
-#pragma warning disable CS8618 // Non-nullable field is uninitialized.
-        public App()
-#pragma warning restore CS8618 // Non-nullable field is uninitialized.
-        {
-            DiagnosticsClient.Initialize();
-        }
-
-        private CompositionContainer _container;
+        private CompositionContainer? _container;
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope")]
         internal CompositionContainer Container
@@ -37,7 +30,7 @@ namespace PackageExplorer
             {
                 if (_container == null)
                 {
-                    var catalog1 = new AssemblyCatalog(typeof(App).Assembly);
+                    var catalog1 = new AssemblyCatalog(typeof(Startup).Assembly);
                     var catalog2 = new AssemblyCatalog(typeof(PackageViewModel).Assembly);
                     var catalog = new AggregateCatalog(catalog1, catalog2);
 
@@ -53,8 +46,6 @@ namespace PackageExplorer
 
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
-            DiagnosticsClient.TrackEvent("AppStart", new Dictionary<string, string> { { "launchType", e.Args.Length > 0 ? "fileAssociation" : "shortcut" } });
-
             Resources.Add("Settings", Container.GetExportedValue<ISettingsManager>());
 
             InitCredentialService();
@@ -146,10 +137,6 @@ namespace PackageExplorer
             catch
             {
             }
-
-            DiagnosticsClient.TrackEvent("AppExit");
-
-            DiagnosticsClient.OnExit();
         }
 
         private void PackageIconImage_ImageFailed(object sender, ExceptionRoutedEventArgs e)

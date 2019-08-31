@@ -31,6 +31,7 @@
   <ItemGroup>
     <Resource Include="Images\*.*" />
     <None Remove="Resources\default-package-icon.png" />
+    <Page Remove="Application.xaml" />
     <Content Include="Resources\fxAssemblies.txt" CopyToOutputDirectory="PreserveNewest" />
     <Resource Include="Resources\default-package-icon.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="ApplicationInsights.config" CopyToOutputDirectory="PreserveNewest" />

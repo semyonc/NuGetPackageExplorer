@@ -16,8 +16,12 @@ namespace NuGetPe
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new AppVersionTelemetryInitializer());
             TelemetryConfiguration.Active.TelemetryInitializers.Add(new EnvironmentTelemetryInitializer());
             
-            Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
             _client = new TelemetryClient();
+        }
+
+        public static void WireApp(Application app)
+        {
+            app.DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
         public static void OnExit()
