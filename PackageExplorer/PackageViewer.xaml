@@ -399,6 +399,7 @@
                 <MenuItem Header="Add _New File..." Command="{Binding AddNewFileCommand}" CommandParameter="{Binding}" Icon="{StaticResource NewItemIcon}" />
                 <MenuItem Header="_Add Existing File..." Command="{Binding AddContentFileCommand}" CommandParameter="{Binding}" Icon="{StaticResource AddItemIcon}" />
                 <MenuItem Header="Add Ne_w Folder" Command="{Binding AddNewFolderCommand}" CommandParameter="{Binding}" Icon="{StaticResource AddFolderIcon}" />
+                <MenuItem Header="Recursive Add Folder..." Command="{Binding RecursiveAddFolderCommand}" CommandParameter="{Binding}" Icon="{DynamicResource OpenFolderIcon}" />
                 <MenuItem Header="Paste" Command="Paste" Icon="{StaticResource PasteIcon}" />
                 <MenuItem Header="_Rename..." InputGestureText="F2" Command="{Binding RenameCommand}" CommandParameter="{Binding}" Icon="{StaticResource RenameIcon}" />
                 <self:GrayscaleMenuItem Header="_Delete" InputGestureText="Delete" Command="{Binding DeleteCommand}" CommandParameter="{Binding}">

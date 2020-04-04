@@ -31,6 +31,7 @@ namespace PackageExplorerViewModel
         private ICommand? _addContentFolderCommand;
         private ICommand? _addNewFileCommand;
         private ICommand? _addNewFolderCommand;
+        private ICommand? _recursiveAddFolder;
         private ICommand? _addScriptCommand;
         private ICommand? _addBuildFileCommand;
         private ICommand? _applyEditCommand;
@@ -501,6 +502,47 @@ namespace PackageExplorerViewModel
             }
         }
 
+        #endregion
+
+        #region RecursiveAddNewFolder
+        public ICommand RecursiveAddFolderCommand
+        {
+            get
+            {
+                if (_recursiveAddFolder == null)
+                {
+                    _recursiveAddFolder = new RelayCommand<object>(RecursiveAddNewFolderExecute, RecursiveAddNewFolderCanExecute);
+                }
+
+                return _recursiveAddFolder;
+            }
+        }
+
+        private bool RecursiveAddNewFolderCanExecute(object? parameter)
+        {
+            if (IsSigned || IsInEditFileMode)
+            {
+                return false;
+            }
+
+            parameter ??= SelectedItem;
+            return parameter == null || parameter is PackageFolder;
+        }
+
+        [SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
+        private void RecursiveAddNewFolderExecute(object parameter)
+        {
+            DiagnosticsClient.TrackEvent("PackageViewModel_RecursiveAddNewFolderExecute");
+
+            parameter ??= SelectedItem ?? RootFolder;
+            var folder = parameter as PackageFolder;
+            var result = UIServices.OpenFolderDialog("Select imported folder", _folderPath, out var folderPath);
+
+            if (result)
+            {
+                folder?.RecursiveAddFolder(folderPath);
+            }
+        }
         #endregion
 
         #region SavePackageCommand

@@ -41,6 +41,11 @@ namespace PackageExplorerViewModel
             get { return PackageViewModel.AddNewFolderCommand; }
         }
 
+        public ICommand RecursiveAddFolderCommand
+        {
+            get { return PackageViewModel.RecursiveAddFolderCommand; }
+        }
+
         public ICommand AddNewFileCommand
         {
             get { return PackageViewModel.AddNewFileCommand; }
@@ -212,6 +217,12 @@ namespace PackageExplorerViewModel
             var newFolder = new PackageFolder(folderName, this);
             AddFolderCore(newFolder);
             return newFolder;
+        }
+
+        public void RecursiveAddFolder(string folderPath)
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+            AddPhysicalFolderCore(directoryInfo);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>")]
